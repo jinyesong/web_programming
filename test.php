@@ -76,3 +76,9 @@
         }
     }
 ?>
+
+<br>
+
+<form action="main.html" method="post">
+    <input type="submit" value="돌아가기">
+</form>
