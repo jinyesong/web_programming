@@ -1,36 +1,41 @@
 <?php
+$lines = @file("./booklist.txt") or $result = "파일을 읽을수 없습니다.";
+$numberCheck = [];
+$bookCheck = [];
+for($i = 0; $i < count($lines); $i++){
+    $BookList[$i] = explode('|',$lines[$i]);
+    $numberCheck[$i] = $i;
+    $bookCheck[$i] = ($i + 1) * 10;
 
-$lines = @file("./booklist.txt") or $result = "파일을 읽을 수 없습니다.";
-
-for($i=0; $i<count($lines); $i++){
-    $BookList[$i]=explode('|', $lines[$i]);
 }
 
-for($i=0; $i<count($lines); $i++){
-    $BookName[$i]=$BookList[$i][0];
-    $BookPrice[$i]=$BookList[$i][1];
-    $BookNumber[$i]=$BookList[$i][2];
-    $BookImage[$i]=$BookList[$i][3];
+for ($i = 0; $i<count($lines); $i++){
+   $BookName[$i] = $BookList[$i][0];
+   $BookPrice[$i] = $BookList[$i][1];
+   $BookNumber[$i] = $BookList[$i][2];
+   $BookImage[$i] = $BookList[$i][3];
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>도서주문 페이지</title>
-    <link rel="stylesheet" href="./Main2.css">
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <title>도서주문 페이지</title>
+        <link rel="stylesheet" href="./Main2.css">
+    </head>
 
-  <body>
+    <body>
 
-  <h1>도서 주문페이지</h1>
+    <h1>도서 주문페이지</h1>
 
-    구매자 아이디: <input type="text" />
+    <form id="order" action="neworder.php" method="post">
+
+    구매자 아이디 : <input type="text" id="name"name="name" value="" />
     <br />
-    <br />
-
-    <input type="checkbox" id="allCheck" onClick="allCheck()"> 모두선택 <br />
+    <br />  
+  
+    <input type="checkbox" id="allCheck" onClick="allcheck()" /> 모두 선택 <br />
 
     <table>
         <tr id="firstValue">
@@ -42,13 +47,13 @@ for($i=0; $i<count($lines); $i++){
             $price = $BookPrice[$i] * $BookNumber[$i];
             echo "<tr>
             <td>
-                <input type=checkbox class=chk onClick=check()>
+                <input type=checkbox value = '$BookName[$i]' name='$numberCheck[$i]' class=chk onClick=check()>
             </td>
             <td class=bookname>$BookName[$i]</td>
             <td><button><a href=uploads/$BookImage[$i]>미리보기</a></button></td>
             <td>$BookPrice[$i]</td>
             <td>
-                <input type = text value=$BookNumber[$i] class = 'input' /> 
+                <input type = text name= '$bookCheck[$i]' value=$BookNumber[$i] class = 'input' /> 
                 <input type = button value=변경 onClick = checkNumber() class=but />
             </td>
             <td class=price>$price</td>
@@ -62,12 +67,14 @@ for($i=0; $i<count($lines); $i++){
     </table>
 
     <p>
-        총 <span id="allNumber">0</span>개 상품선택
+      총 <span id="allNumber" >0</span> 개 상품 선택
     </p>
-    <input type="button" value="삭제하기" id="removeTable">
-    <input type="submit" value="주문하기"id="submit">
+    <input type="button" value="삭제하기" id="removeTable" onClick="removeTr()" >
+    <input type="submit" value="주문하기" id="submit" onClick="sub()">
+    </form>
 
-    <script type="text/javascript" src="./test.js"></script>
-  </body>
+
+    <script type="text/javascript" src='./test2.js'></script>
+    </body>
 
 </html>
